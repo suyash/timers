@@ -16,14 +16,16 @@ async function onAddNewTimer(this: HTMLFormElement, e: Event): Promise<void> {
 
     const title: string = (this[0] as any).value;
     (this[0] as any).value = "";
-    const target: number = (this[1] as any).valueAsNumber;
+    const date: number = (this[1] as any).valueAsNumber;
     (this[1] as any).value = "";
+    const time: any = (this[2] as any).valueAsNumber;
+    (this[2] as any).value = "";
 
-    if (!title || !target) {
+    if (!title || !date || !time) {
         return;
     }
 
-    const timer: Timer = await add(target, title);
+    const timer: Timer = await add(date + time, title);
     addNewTimer(timer);
 }
 
