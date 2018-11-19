@@ -13,7 +13,7 @@ export default class Timer extends HTMLElement {
     private minutes: HTMLElement;
     private seconds: HTMLElement;
     private milliseconds: HTMLElement;
-    private lastUpdated: number;
+    private target: number;
 
     constructor(timer: TimerInterface) {
         super();
@@ -25,7 +25,7 @@ export default class Timer extends HTMLElement {
 
         (node.querySelector("header") as HTMLElement).innerText = timer.title;
 
-        this.lastUpdated = Date.now();
+        this.target = timer.target;
 
         this.days = node.querySelector(".days") as HTMLElement;
         this.hours = node.querySelector(".hours") as HTMLElement;
@@ -33,7 +33,17 @@ export default class Timer extends HTMLElement {
         this.seconds = node.querySelector(".seconds") as HTMLElement;
         this.milliseconds = node.querySelector(".milliseconds") as HTMLElement;
 
-        let diff: number = differenceInMilliseconds(timer.target, this.lastUpdated);
+        this.appendChild(node);
+    }
+
+    public connectedCallback(): void {
+        this.update();
+    }
+
+    private update = (): void => {
+        const currentTime: number = Date.now();
+
+        let diff: number = differenceInMilliseconds(this.target, currentTime);
 
         const days: number = Math.floor(diff / HOURS);
         diff -= days * HOURS;
@@ -53,89 +63,42 @@ export default class Timer extends HTMLElement {
 
         this.updateMilliseconds(diff);
 
-        this.appendChild(node);
-    }
-
-    public connectedCallback(): void {
-        this.lastUpdated = Date.now();
-        this.update();
-    }
-
-    private update = (): void => {
-        const currentTime: number = Date.now();
-        const diff: number = currentTime - this.lastUpdated;
-
-        if (diff > 0) {
-            this.lastUpdated = currentTime;
-
-            let milliseconds: number = parseInt(this.milliseconds.innerText, 10) - diff;
-            if (milliseconds >= 0) {
-                this.updateMilliseconds(milliseconds);
-                requestAnimationFrame(this.update);
-                return;
-            }
-
-            milliseconds += 1000;
-            let seconds: number = parseInt(this.seconds.innerText, 10) - 1;
-            if (seconds >= 0) {
-                this.updateMilliseconds(milliseconds);
-                this.updateSeconds(seconds);
-                requestAnimationFrame(this.update);
-                return;
-            }
-
-            seconds += 60;
-            let minutes: number = parseInt(this.minutes.innerText, 10) - 1;
-            if (minutes >= 0) {
-                this.updateMilliseconds(milliseconds);
-                this.updateSeconds(seconds);
-                this.updateMinutes(minutes);
-                requestAnimationFrame(this.update);
-                return;
-            }
-
-            minutes += 60;
-            let hours: number = parseInt(this.hours.innerText, 10) - 1;
-            if (hours >= 0) {
-                this.updateMilliseconds(milliseconds);
-                this.updateSeconds(seconds);
-                this.updateMinutes(minutes);
-                this.updateHours(hours);
-                requestAnimationFrame(this.update);
-                return;
-            }
-
-            hours += 24;
-            const days: number = parseInt(this.days.innerText, 10) - 1;
-
-            this.updateMilliseconds(milliseconds);
-            this.updateSeconds(seconds);
-            this.updateMinutes(minutes);
-            this.updateHours(hours);
-            this.updateDays(days);
-        }
-
         requestAnimationFrame(this.update);
     }
 
     private updateMilliseconds = (val: number): void => {
-        this.milliseconds.innerText = val >= 100 ? String(val) : val >= 10 ? "0" + String(val) : "00" + String(val);
+        const cval: number = parseInt(this.milliseconds.innerText, 10);
+        if (cval !== val) {
+            this.milliseconds.innerText = val >= 100 ? String(val) : val >= 10 ? "0" + String(val) : "00" + String(val);
+        }
     }
 
     private updateSeconds = (val: number): void => {
-        this.seconds.innerText = val >= 10 ? String(val) : "0" + String(val);
+        const cval: number = parseInt(this.seconds.innerText, 10);
+        if (cval !== val) {
+            this.seconds.innerText = val >= 10 ? String(val) : "0" + String(val);
+        }
     }
 
     private updateMinutes = (val: number): void => {
-        this.minutes.innerText = val >= 10 ? String(val) : "0" + String(val);
+        const cval: number = parseInt(this.minutes.innerText, 10);
+        if (cval !== val) {
+            this.minutes.innerText = val >= 10 ? String(val) : "0" + String(val);
+        }
     }
 
     private updateHours = (val: number): void => {
-        this.hours.innerText = val >= 10 ? String(val) : "0" + String(val);
+        const cval: number = parseInt(this.hours.innerText, 10);
+        if (cval !== val) {
+            this.hours.innerText = val >= 10 ? String(val) : "0" + String(val);
+        }
     }
 
     private updateDays = (val: number): void => {
-        this.days.innerText = val >= 10 ? String(val) : "0" + String(val);
+        const cval: number = parseInt(this.days.innerText, 10);
+        if (cval !== val) {
+            this.days.innerText = val >= 10 ? String(val) : "0" + String(val);
+        }
     }
 }
 
