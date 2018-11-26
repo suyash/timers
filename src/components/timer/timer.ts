@@ -13,7 +13,7 @@ export default class Timer extends HTMLElement {
     private minutes: HTMLElement;
     private seconds: HTMLElement;
     private milliseconds: HTMLElement;
-    private target: number;
+    private targetTS: number;
 
     constructor(timer: TimerInterface) {
         super();
@@ -26,7 +26,7 @@ export default class Timer extends HTMLElement {
         (node.querySelector("header h2") as HTMLElement).innerText = timer.title;
         (node.querySelector("header h4") as HTMLElement).innerText = timer.targetString;
 
-        this.target = timer.target;
+        this.targetTS = timer.target;
 
         this.days = node.querySelector(".days") as HTMLElement;
         this.hours = node.querySelector(".hours") as HTMLElement;
@@ -37,6 +37,10 @@ export default class Timer extends HTMLElement {
         this.appendChild(node);
     }
 
+    get target(): number {
+        return this.targetTS;
+    }
+
     public connectedCallback(): void {
         this.update();
     }
@@ -44,7 +48,7 @@ export default class Timer extends HTMLElement {
     private update = (): void => {
         const currentTime: number = Date.now();
 
-        let diff: number = differenceInMilliseconds(this.target, currentTime);
+        let diff: number = differenceInMilliseconds(this.targetTS, currentTime);
 
         const days: number = Math.floor(diff / HOURS);
         diff -= days * HOURS;

@@ -6,6 +6,7 @@ export default async function main(): Promise<void> {
     form.addEventListener("submit", onAddNewTimer);
 
     const t: Timer[] = await timers();
+    t.sort((a: Timer, b: Timer): number => a.target - b.target);
     for (const timer of t) {
         addNewTimer(timer);
     }
@@ -33,5 +34,11 @@ async function onAddNewTimer(this: HTMLFormElement, e: Event): Promise<void> {
 
 function addNewTimer(timer: Timer): void {
     const element: TimerElement = new TimerElement(timer);
+    for (const t of document.querySelectorAll("x-timer") as any) {
+        if ((t as TimerElement).target >= timer.target) {
+            (document.querySelector("main > section") as HTMLElement).insertBefore(element, t);
+            return;
+        }
+    }
     (document.querySelector("main > section") as HTMLElement).appendChild(element);
 }
