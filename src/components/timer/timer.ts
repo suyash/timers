@@ -23,7 +23,8 @@ export default class Timer extends HTMLElement {
         const template: HTMLTemplateElement = document.querySelector("#timer") as HTMLTemplateElement;
         const node: DocumentFragment = document.importNode(template.content, true);
 
-        (node.querySelector("header") as HTMLElement).innerText = timer.title;
+        (node.querySelector("header h2") as HTMLElement).innerText = timer.title;
+        (node.querySelector("header h4") as HTMLElement).innerText = timer.targetString;
 
         this.target = timer.target;
 

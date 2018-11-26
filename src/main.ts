@@ -17,15 +17,17 @@ async function onAddNewTimer(this: HTMLFormElement, e: Event): Promise<void> {
     const title: string = (this[0] as any).value;
     (this[0] as any).value = "";
     const date: number = (this[1] as any).valueAsNumber;
+    const dateString: string = (this[1] as any).value;
     (this[1] as any).value = "";
     const time: any = (this[2] as any).valueAsNumber;
+    const timeString: string = (this[2] as any).value;
     (this[2] as any).value = "";
 
     if (!title || !date || !time) {
         return;
     }
 
-    const timer: Timer = await add(date + time, title);
+    const timer: Timer = await add(date + time, title, `${dateString} ${timeString} UTC`);
     addNewTimer(timer);
 }
 

@@ -4,13 +4,14 @@ export interface Timer {
     id: string;
     target: number;
     title: string;
+    targetString: string;
 }
 
 const store: Store = new Store("timers", "timers");
 
-export async function add(target: number, title: string): Promise<Timer> {
+export async function add(target: number, title: string, targetString: string): Promise<Timer> {
     const id: string = uuid();
-    const timer: Timer = { id, target, title };
+    const timer: Timer = { id, target, title, targetString };
     await set(id, timer, store);
     return timer;
 }
