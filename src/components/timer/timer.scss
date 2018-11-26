@@ -19,15 +19,30 @@ x-timer {
         border-bottom: 1px solid black;
 
         div {
-            &:after {
-                padding: 0 0.25rem;
-                content: ":";
+            &.days {
+                width: 6rem;
+                padding-right: 0.25rem;
+                text-align: right;
             }
 
-            &:last-child {
-                &:after {
-                    content: "";
-                }
+            &.hours {
+                width: 4rem;
+                text-align: center;
+            }
+
+            &.minutes {
+                width: 4rem;
+                text-align: center;
+            }
+
+            &.seconds {
+                width: 4rem;
+                text-align: center;
+            }
+
+            &.milliseconds {
+                padding-left: 0.25rem;
+                width: 6rem;
             }
         }
 
