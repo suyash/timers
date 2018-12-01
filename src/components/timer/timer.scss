@@ -4,6 +4,15 @@ x-timer {
     padding: 1rem 4rem 0 4rem;
     margin: 1rem 0;
 
+    &.done {
+        color: #7f7f7f;
+        order: 1;
+
+        > section {
+            border-color: #7f7f7f;
+        }
+    }
+
     header {
         h2 {
             display: flex;

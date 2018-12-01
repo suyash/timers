@@ -49,4 +49,9 @@ main {
             justify-content: start;
         }
     }
+
+    > section {
+        display: flex;
+        flex-direction: column;
+    }
 }

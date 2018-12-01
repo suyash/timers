@@ -49,6 +49,15 @@ export default class Timer extends HTMLElement {
         const currentTime: number = Date.now();
 
         let diff: number = differenceInMilliseconds(this.targetTS, currentTime);
+        if (diff < 0) {
+            this.updateDays(0);
+            this.updateHours(0);
+            this.updateMinutes(0);
+            this.updateSeconds(0);
+            this.updateMilliseconds(0);
+            this.classList.add("done");
+            return;
+        }
 
         const days: number = Math.floor(diff / HOURS);
         diff -= days * HOURS;
