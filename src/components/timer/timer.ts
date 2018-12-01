@@ -1,6 +1,6 @@
 import differenceInMilliseconds from "date-fns/difference_in_milliseconds";
 
-import { Timer as TimerInterface } from "../../store";
+import { remove, Timer as TimerInterface } from "../../store";
 
 const MILLISECONDS: number = 1000;
 const SECONDS: number = MILLISECONDS * 60;
@@ -33,6 +33,8 @@ export default class Timer extends HTMLElement {
         this.minutes = node.querySelector(".minutes") as HTMLElement;
         this.seconds = node.querySelector(".seconds") as HTMLElement;
         this.milliseconds = node.querySelector(".milliseconds") as HTMLElement;
+
+        (node.querySelector(".remover") as HTMLAnchorElement).addEventListener("click", this.onRemove);
 
         this.appendChild(node);
     }
@@ -113,6 +115,12 @@ export default class Timer extends HTMLElement {
         if (cval !== val) {
             this.days.innerText = val >= 10 ? String(val) : "0" + String(val);
         }
+    }
+
+    private onRemove = async (e: MouseEvent): Promise<void> => {
+        e.preventDefault();
+        await remove(this.id);
+        this.remove();
     }
 }
 

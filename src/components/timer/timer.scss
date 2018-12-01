@@ -2,31 +2,44 @@ x-timer {
     display: flex;
     flex-direction: column;
     padding: 1rem 4rem 0 4rem;
-    margin: 1rem 0;
 
     &.done {
-        color: #7f7f7f;
+        opacity: 0.5;
         order: 1;
-
-        > section {
-            border-color: #7f7f7f;
-        }
     }
 
     header {
-        h2 {
-            display: flex;
-            justify-content: center;
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 100;
+        display: flex;
+
+        div:first-child {
+            width: 95%;
+            padding-left: 5%;
+            box-sizing: border-box;
+
+            h2 {
+                display: flex;
+                justify-content: center;
+                margin: 0;
+                font-size: 2.5rem;
+                font-weight: 100;
+            }
+
+            h4 {
+                display: flex;
+                justify-content: center;
+                margin: 0;
+                margin-top: 1rem;
+            }
         }
 
-        h4 {
-            display: flex;
-            justify-content: center;
-            margin: 0;
-            margin-top: 1rem;
+        div:last-child {
+            padding-top: 0.25rem;
+
+            a {
+                color: red;
+                text-decoration: none;
+                font-size: 1.5rem;
+            }
         }
     }
 

@@ -16,8 +16,8 @@ export async function add(target: number, title: string, targetString: string): 
     return timer;
 }
 
-export async function remove(timer: Timer): Promise<void> {
-    await del(timer.id, store);
+export async function remove(id: string): Promise<void> {
+    await del(id, store);
 }
 
 export async function timers(): Promise<Timer[]> {
